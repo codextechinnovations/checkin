@@ -920,19 +920,19 @@
                     <input class="input" id="name" placeholder="As per Aadhaar" required>
 
                     <label>Phone Number</label>
-                    <input class="input" id="phone" placeholder="10 digit mobile number" required>
-                    <div class="error" id="phoneError">Enter valid 10 digit phone number</div>
+                    <input class="input" id="phone" inputmode="numeric" pattern="[6-9][0-9]{9}" maxlength="10" placeholder="10 digit mobile number" required>
+                    <div class="error" id="phoneError">Enter valid 10 digit phone number (must start with 6-9)</div>
 
                     <label>Alternative Contact</label>
-                    <input class="input" id="altPhone" placeholder="10 digit mobile number" required>
-                    <div class="error" id="altphoneError">Enter valid 10 digit phone number</div>
+                    <input class="input" id="altPhone" inputmode="numeric" pattern="[6-9][0-9]{9}" maxlength="10" placeholder="10 digit mobile number" required>
+                    <div class="error" id="altphoneError">Enter valid 10 digit phone number (must start with 6-9)</div>
 
                     <label>Email Address</label>
                     <input class="input" id="email" placeholder="your@email.com" required>
                     <div class="error" id="emailError">Enter valid email address</div>
 
                     <label>Aadhaar Number</label>
-                    <input class="input" id="aadhaar" maxlength="12" placeholder="12 digit Aadhaar number" required>
+                    <input class="input" id="aadhaar" inputmode="numeric" pattern="[0-9]{12}" maxlength="12" placeholder="12 digit Aadhaar number" required>
                     <div class="error" id="aadhaarError">Enter valid 12 digit Aadhaar number</div>
 
                     <label>Permanent Address</label>
@@ -1272,6 +1272,18 @@
         const addressInput = document.getElementById("address")
         const occupationInput = document.getElementById("occupation")
         const occupationAddressInput = document.getElementById("occupationAddress")
+
+        /* FORCE NUMERIC ONLY */
+        [phoneInput, altPhoneInput, aadhaarInput].forEach(input => {
+            input.addEventListener('input', function() {
+                this.value = this.value.replace(/\D/g, '')
+            })
+            input.addEventListener('keydown', function(e) {
+                if (!/[\d\b]/.test(e.key) && !['Backspace','Delete','ArrowLeft','ArrowRight','Tab'].includes(e.key)) {
+                    e.preventDefault()
+                }
+            })
+        })
 
         /* SUBMIT FORM */
         document.getElementById("tenantForm").onsubmit = async e => {
