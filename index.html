@@ -996,7 +996,7 @@
         /* LOAD PG NAME */
         async function loadPG() {
             try {
-                const res = await fetch(`http://api.manageyourpg.com/api/tenantRequest/pg/${pg_id}`)
+                const res = await fetch(`https://api.manageyourpg.com/api/tenantRequest/pg/${pg_id}`)
                 const data = await res.json()
                 document.getElementById("pgName").innerText = data.name || "GetYourStay"
             } catch {
@@ -1320,7 +1320,7 @@
             if (passportFile) formData.append("passportPhoto", passportFile)
 
             try {
-                const res = await fetch("http://api.manageyourpg.com/api/tenantRequest/self-checkin", {
+                const res = await fetch("https://api.manageyourpg.com/api/tenantRequest/self-checkin", {
                     method: "POST",
                     body: formData
                 })
