@@ -1,0 +1,1629 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1">
+
+    <title>GetYourStay Tenant Check-In</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
+        rel="stylesheet">
+    <style>
+        * {
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            margin: 0;
+            background: linear-gradient(135deg, #1a1a4e 0%, #2d2d7e 50%, #1e3a8a 100%);
+            display: flex;
+            align-items: flex-start;
+            justify-content: center;
+            min-height: 100vh;
+            padding: 20px;
+        }
+
+        .card {
+            width: 100%;
+            max-width: 500px;
+            background: rgba(255, 255, 255, 0.98);
+            backdrop-filter: blur(10px);
+            padding: 30px;
+            border-radius: 24px;
+            box-shadow: 0 30px 80px rgba(0, 0, 0, 0.35);
+            animation: fadeIn .5s ease;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            margin-top: 20px;
+        }
+
+        .pgName {
+            text-align: center;
+            font-size: 28px;
+            font-weight: 800;
+            background: linear-gradient(135deg, #1a1a4e, #2d2d7e, #1e3a8a);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            margin-bottom: 8px;
+            letter-spacing: -0.5px;
+        }
+
+        .subtitle {
+            text-align: center;
+            color: #6b7280;
+            font-size: 14px;
+            margin-bottom: 20px;
+            font-weight: 500;
+        }
+
+        .powered {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 11px;
+            color: #9ca3af;
+        }
+
+        .section {
+            margin-top: 18px;
+        }
+
+        label {
+            display: block;
+            font-size: 12px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #374151;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .input {
+            width: 100%;
+            padding: 14px 16px;
+            border-radius: 12px;
+            border: 2px solid #e5e7eb;
+            background: #f9fafb;
+            margin-bottom: 14px;
+            font-size: 14px;
+            transition: all .3s;
+        }
+
+        .input:focus {
+            outline: none;
+            border-color: #2d2d7e;
+            background: white;
+            box-shadow: 0 0 0 4px rgba(45, 45, 126, 0.15);
+            transform: translateY(-1px);
+        }
+
+        .input:disabled {
+            background: #f3f4f6;
+            color: #6b7280;
+        }
+
+        textarea.input {
+            height: 80px;
+            resize: none;
+        }
+
+        /* ===== Stay Type Selector ===== */
+        .stay-type-section {
+            background: linear-gradient(135deg, #fff7ed, #ffedd5);
+            border: 2px solid #fed7aa;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            margin-top: 18px;
+        }
+
+        .stay-type-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .stay-type-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #ea580c, #f97316);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 20px;
+        }
+
+        .stay-type-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #9a3412;
+            margin: 0;
+        }
+
+        .stay-type-subtitle {
+            font-size: 11px;
+            color: #6b7280;
+            margin: 0;
+        }
+
+        .stay-options {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 0;
+        }
+
+        .stay-option {
+            flex: 1;
+            position: relative;
+        }
+
+        .stay-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .stay-option-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 6px;
+            padding: 16px 10px;
+            border: 2px solid #fed7aa;
+            border-radius: 14px;
+            background: white;
+            cursor: pointer;
+            transition: all .3s ease;
+            text-align: center;
+        }
+
+        .stay-option-label:hover {
+            border-color: #fb923c;
+            background: #fff7ed;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(249, 115, 22, 0.2);
+        }
+
+        .stay-option input[type="radio"]:checked + .stay-option-label {
+            border-color: #ea580c;
+            background: linear-gradient(135deg, #fff7ed, #ffedd5);
+            box-shadow: 0 4px 15px rgba(249, 115, 22, 0.25);
+            transform: translateY(-2px);
+        }
+
+        .stay-option-icon {
+            font-size: 28px;
+            line-height: 1;
+        }
+
+        .stay-option-text {
+            font-size: 13px;
+            font-weight: 700;
+            color: #374151;
+        }
+
+        .stay-option-desc {
+            font-size: 10px;
+            color: #6b7280;
+            font-weight: 400;
+            line-height: 1.3;
+        }
+
+        .stay-option input[type="radio"]:checked + .stay-option-label .stay-option-text {
+            color: #ea580c;
+        }
+
+        .stay-option-check {
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            background: #ea580c;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 11px;
+        }
+
+        .stay-option input[type="radio"]:checked ~ .stay-option-check {
+            display: flex;
+        }
+
+        /* ===== Date/Time Fields ===== */
+        .datetime-section {
+            background: linear-gradient(135deg, #f0fdf4, #dcfce7);
+            border: 2px solid #bbf7d0;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+            animation: slideDown .3s ease;
+        }
+
+        .datetime-section.hidden {
+            display: none;
+        }
+
+        .datetime-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .datetime-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #059669, #10b981);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+        }
+
+        .datetime-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #065f46;
+            margin: 0;
+        }
+
+        .datetime-subtitle {
+            font-size: 11px;
+            color: #6b7280;
+            margin: 0;
+        }
+
+        .datetime-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px;
+        }
+
+        .datetime-grid .field-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .datetime-grid .field-group.full-width {
+            grid-column: 1 / -1;
+        }
+
+        .datetime-grid label {
+            font-size: 11px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: #374151;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .datetime-input {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 10px;
+            border: 2px solid #bbf7d0;
+            background: white;
+            font-size: 13px;
+            transition: all .3s;
+            color: #1f2937;
+        }
+
+        .datetime-input:focus {
+            outline: none;
+            border-color: #059669;
+            box-shadow: 0 0 0 3px rgba(5, 150, 105, 0.15);
+        }
+
+        .checkout-label-row {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 15px;
+            margin-bottom: 10px;
+        }
+
+        .checkout-label-row .line {
+            flex: 1;
+            height: 1px;
+            background: #bbf7d0;
+        }
+
+        .checkout-label-row span {
+            font-size: 11px;
+            font-weight: 700;
+            color: #059669;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            white-space: nowrap;
+        }
+
+        .month-selector {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .month-option {
+            position: relative;
+        }
+
+        .month-option input[type="radio"] {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .month-option-label {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 2px;
+            padding: 10px 6px;
+            border: 2px solid #bbf7d0;
+            border-radius: 10px;
+            background: white;
+            cursor: pointer;
+            transition: all .25s ease;
+            text-align: center;
+        }
+
+        .month-option-label:hover {
+            border-color: #34d399;
+            background: #ecfdf5;
+        }
+
+        .month-option input[type="radio"]:checked + .month-option-label {
+            border-color: #059669;
+            background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+            box-shadow: 0 3px 10px rgba(5, 150, 105, 0.2);
+        }
+
+        .month-num {
+            font-size: 18px;
+            font-weight: 800;
+            color: #374151;
+            line-height: 1.2;
+        }
+
+        .month-option input[type="radio"]:checked + .month-option-label .month-num {
+            color: #059669;
+        }
+
+        .month-text {
+            font-size: 9px;
+            font-weight: 600;
+            color: #6b7280;
+            text-transform: uppercase;
+            letter-spacing: 0.3px;
+        }
+
+        .month-check {
+            position: absolute;
+            top: 4px;
+            right: 4px;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            background: #059669;
+            display: none;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 9px;
+        }
+
+        .month-option input[type="radio"]:checked ~ .month-check {
+            display: flex;
+        }
+
+        .stay-summary {
+            display: none;
+            margin-top: 15px;
+            padding: 12px 16px;
+            background: linear-gradient(135deg, #ecfdf5, #d1fae5);
+            border: 1px solid #a7f3d0;
+            border-radius: 10px;
+            font-size: 12px;
+            color: #065f46;
+            font-weight: 500;
+            text-align: center;
+        }
+
+        .stay-summary.show {
+            display: block;
+            animation: slideDown .3s ease;
+        }
+
+        .stay-summary strong {
+            color: #059669;
+            font-weight: 700;
+        }
+
+        /* ===== Aadhaar Section ===== */
+        .aadhaar-section {
+            background: linear-gradient(135deg, #f0f4ff, #e8eeff);
+            border: 2px solid #c7d2fe;
+            border-radius: 16px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .aadhaar-header {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            margin-bottom: 15px;
+        }
+
+        .aadhaar-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(135deg, #1a1a4e, #2d2d7e);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 18px;
+        }
+
+        .aadhaar-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1a1a4e;
+            margin: 0;
+        }
+
+        .aadhaar-subtitle {
+            font-size: 11px;
+            color: #6b7280;
+            margin: 0;
+        }
+
+        .verify-btn {
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 12px;
+            background: linear-gradient(135deg, #1a1a4e, #2d2d7e);
+            color: white;
+            font-size: 14px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: .3s;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+
+        .verify-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(26, 26, 78, 0.4);
+        }
+
+        .verify-btn:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .verify-btn.verified {
+            background: linear-gradient(135deg, #059669, #10b981);
+        }
+
+        .otp-section {
+            display: none;
+            margin-top: 15px;
+            animation: slideDown .3s ease;
+        }
+
+        .otp-section.active {
+            display: block;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .otp-inputs {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+            margin-bottom: 15px;
+        }
+
+        .otp-input {
+            width: 45px;
+            height: 50px;
+            text-align: center;
+            font-size: 20px;
+            font-weight: 600;
+            border: 2px solid #c7d2fe;
+            border-radius: 10px;
+            background: white;
+            transition: all .3s;
+        }
+
+        .otp-input:focus {
+            outline: none;
+            border-color: #2d2d7e;
+            box-shadow: 0 0 0 4px rgba(45, 45, 126, 0.15);
+        }
+
+        .verified-badge {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 12px;
+            background: #dcfce7;
+            border-radius: 12px;
+            margin-top: 10px;
+        }
+
+        .verified-badge svg {
+            color: #059669;
+        }
+
+        .verified-badge span {
+            font-size: 13px;
+            font-weight: 600;
+            color: #059669;
+        }
+
+        .uploadBox {
+            border: 2px dashed #c4b5fd;
+            border-radius: 14px;
+            padding: 25px;
+            text-align: center;
+            background: linear-gradient(135deg, #f3e8ff, #ede9fe);
+            cursor: pointer;
+            transition: .3s;
+            margin-bottom: 10px;
+        }
+
+        .uploadBox:hover {
+            border-color: #764ba2;
+            background: linear-gradient(135deg, #ede9fe, #ddd6fe);
+            transform: scale(1.02);
+        }
+
+        .preview {
+            width: 100%;
+            border-radius: 12px;
+            margin-top: 10px;
+            border: 3px solid #ddd6fe;
+        }
+
+        button[type="submit"] {
+            width: 100%;
+            padding: 16px;
+            border: none;
+            border-radius: 14px;
+            background: linear-gradient(135deg, #f97316, #ea580c);
+            color: white;
+            font-size: 16px;
+            font-weight: 700;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: .3s;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        button[type="submit"]:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 12px 30px rgba(249, 115, 22, 0.4);
+        }
+
+        button[type="submit"]:disabled {
+            opacity: 0.6;
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .success {
+            text-align: center;
+            margin-top: 16px;
+            color: #059669;
+            font-weight: 600;
+            font-size: 14px;
+            background: #dcfce7;
+            padding: 14px;
+            border-radius: 12px;
+        }
+
+        .spinner {
+            border: 3px solid rgba(255, 255, 255, .3);
+            border-top: 3px solid white;
+            border-radius: 50%;
+            width: 18px;
+            height: 18px;
+            animation: spin 1s linear infinite;
+            display: inline-block;
+            vertical-align: middle;
+            margin-right: 8px;
+        }
+
+        @keyframes spin {
+            0% { transform: rotate(0deg) }
+            100% { transform: rotate(360deg) }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(20px)
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0)
+            }
+        }
+
+        .error {
+            color: #dc2626;
+            font-size: 11px;
+            margin-top: -10px;
+            margin-bottom: 10px;
+            display: none;
+            font-weight: 500;
+        }
+
+        .error.show {
+            display: block;
+        }
+
+        #notFound {
+            display: none;
+            align-items: center;
+            justify-content: center;
+            height: 100vh;
+            text-align: center;
+            background: linear-gradient(135deg, #1a1a4e 0%, #2d2d7e 100%);
+            color: white;
+        }
+
+        .notFoundBox {
+            animation: fadeIn .6s ease;
+            padding: 40px;
+        }
+
+        .errorCode {
+            font-size: 100px;
+            margin: 0;
+            font-weight: 800;
+            letter-spacing: 8px;
+            text-shadow: 0 10px 30px rgba(0,0,0,0.3);
+        }
+
+        .errorTitle {
+            margin-top: 15px;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .errorText {
+            margin-top: 15px;
+            color: #c7d2fe;
+            max-width: 400px;
+            line-height: 1.6;
+        }
+
+        .powered404 {
+            margin-top: 40px;
+            font-size: 14px;
+            opacity: .9;
+        }
+
+        .auto-fill-toggle {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            margin-top: 10px;
+            font-size: 12px;
+            color: #6b7280;
+        }
+
+        .auto-fill-toggle input {
+            width: 16px;
+            height: 16px;
+            accent-color: #2d2d7e;
+        }
+
+        .datetime-error {
+            color: #dc2626;
+            font-size: 11px;
+            font-weight: 500;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .datetime-error.show {
+            display: block;
+        }
+
+        @media (max-width: 480px) {
+            .card {
+                padding: 20px;
+                border-radius: 18px;
+            }
+
+            .stay-options {
+                gap: 8px;
+            }
+
+            .stay-option-label {
+                padding: 12px 8px;
+            }
+
+            .stay-option-icon {
+                font-size: 24px;
+            }
+
+            .month-selector {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 6px;
+            }
+
+            .month-option-label {
+                padding: 8px 4px;
+            }
+
+            .month-num {
+                font-size: 16px;
+            }
+
+            .datetime-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+    <div id="notFound" style="display:none">
+        <div class="notFoundBox">
+            <h1 class="errorCode">404</h1>
+            <h2 class="errorTitle">Invalid Check-In Link</h2>
+            <p class="errorText">
+                This check-in link is invalid or expired.
+                Please contact the PG owner for a valid QR code.
+            </p>
+            <div class="powered404">
+                Powered by <strong>Codex Tech Innovations & Consultants LLP</strong>
+            </div>
+        </div>
+    </div>
+
+    <div class="card">
+        <div class="pgName" id="pgName">Loading PG...</div>
+        <div class="subtitle">Tenant Self Check-In</div>
+
+        <form id="tenantForm">
+
+            <!-- Stay Type Selection -->
+            <div class="stay-type-section">
+                <div class="stay-type-header">
+                    <div class="stay-type-icon">&#127968;</div>
+                    <div>
+                        <h3 class="stay-type-title">Select Stay Type</h3>
+                        <p class="stay-type-subtitle">Choose your preferred stay duration</p>
+                    </div>
+                </div>
+
+                <div class="stay-options">
+                    <div class="stay-option">
+                        <input type="radio" name="stayType" id="dailyStay" value="daily" onchange="onStayTypeChange()">
+                        <label class="stay-option-label" for="dailyStay">
+                            <span class="stay-option-icon">&#9728;&#65039;</span>
+                            <span class="stay-option-text">Daily Stay</span>
+                            <span class="stay-option-desc">Pay per day</span>
+                        </label>
+                        <div class="stay-option-check">&#10003;</div>
+                    </div>
+                    <div class="stay-option">
+                        <input type="radio" name="stayType" id="monthlyStay" value="monthly" onchange="onStayTypeChange()">
+                        <label class="stay-option-label" for="monthlyStay">
+                            <span class="stay-option-icon">&#127769;</span>
+                            <span class="stay-option-text">Monthly Stay</span>
+                            <span class="stay-option-desc">Monthly rental</span>
+                        </label>
+                        <div class="stay-option-check">&#10003;</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Date/Time Section (hidden until stay type selected) -->
+            <div id="datetimeSection" class="datetime-section hidden">
+                <div class="datetime-header">
+                    <div class="datetime-icon">&#128197;</div>
+                    <div>
+                        <h3 class="datetime-title" id="datetimeTitle">Check-In Details</h3>
+                        <p class="datetime-subtitle" id="datetimeSubtitle">Select your check-in date & time</p>
+                    </div>
+                </div>
+
+                <!-- Check-In Date & Time -->
+                <div class="datetime-grid">
+                    <div class="field-group">
+                        <label>Check-In Date</label>
+                        <input type="date" class="datetime-input" id="checkinDate" onchange="updateStaySummary()">
+                    </div>
+                    <div class="field-group">
+                        <label>Check-In Time</label>
+                        <input type="time" class="datetime-input" id="checkinTime" onchange="updateStaySummary()">
+                    </div>
+                </div>
+
+                <div class="datetime-error" id="checkinError">Please select both check-in date and time</div>
+
+                <!-- Checkout Divider -->
+                <div class="checkout-label-row" id="checkoutDivider" style="display:none;">
+                    <div class="line"></div>
+                    <span id="checkoutLabel">Check-Out</span>
+                    <div class="line"></div>
+                </div>
+
+                <!-- Daily Checkout -->
+                <div id="dailyCheckoutSection" style="display:none;">
+                    <div class="datetime-grid">
+                        <div class="field-group">
+                            <label>Check-Out Date</label>
+                            <input type="date" class="datetime-input" id="checkoutDate" onchange="updateStaySummary()">
+                        </div>
+                        <div class="field-group">
+                            <label>Check-Out Time</label>
+                            <input type="time" class="datetime-input" id="checkoutTime" onchange="updateStaySummary()">
+                        </div>
+                    </div>
+                    <div class="datetime-error" id="checkoutError">Please select both check-out date and time (must be after check-in)</div>
+                </div>
+
+                <!-- Monthly Checkout (Month Selector) -->
+                <div id="monthlyCheckoutSection" style="display:none;">
+                    <label style="margin-bottom:10px;">Number of Months</label>
+                    <div class="month-selector">
+                        <div class="month-option">
+                            <input type="radio" name="stayMonths" id="month1" value="1" onchange="updateStaySummary()">
+                            <label class="month-option-label" for="month1">
+                                <span class="month-num">1</span>
+                                <span class="month-text">Month</span>
+                            </label>
+                            <div class="month-check">&#10003;</div>
+                        </div>
+                        <div class="month-option">
+                            <input type="radio" name="stayMonths" id="month2" value="2" onchange="updateStaySummary()">
+                            <label class="month-option-label" for="month2">
+                                <span class="month-num">2</span>
+                                <span class="month-text">Months</span>
+                            </label>
+                            <div class="month-check">&#10003;</div>
+                        </div>
+                        <div class="month-option">
+                            <input type="radio" name="stayMonths" id="month3" value="3" onchange="updateStaySummary()">
+                            <label class="month-option-label" for="month3">
+                                <span class="month-num">3</span>
+                                <span class="month-text">Months</span>
+                            </label>
+                            <div class="month-check">&#10003;</div>
+                        </div>
+                        <div class="month-option">
+                            <input type="radio" name="stayMonths" id="month6" value="6" onchange="updateStaySummary()">
+                            <label class="month-option-label" for="month6">
+                                <span class="month-num">6</span>
+                                <span class="month-text">Months</span>
+                            </label>
+                            <div class="month-check">&#10003;</div>
+                        </div>
+                        <div class="month-option">
+                            <input type="radio" name="stayMonths" id="month9" value="9" onchange="updateStaySummary()">
+                            <label class="month-option-label" for="month9">
+                                <span class="month-num">9</span>
+                                <span class="month-text">Months</span>
+                            </label>
+                            <div class="month-check">&#10003;</div>
+                        </div>
+                        <div class="month-option">
+                            <input type="radio" name="stayMonths" id="month12" value="12" onchange="updateStaySummary()">
+                            <label class="month-option-label" for="month12">
+                                <span class="month-num">12</span>
+                                <span class="month-text">Months</span>
+                            </label>
+                            <div class="month-check">&#10003;</div>
+                        </div>
+                    </div>
+                    <div class="datetime-error" id="monthError">Please select number of months</div>
+                </div>
+
+                <!-- Stay Summary -->
+                <div class="stay-summary" id="staySummary"></div>
+            </div>
+
+            <div class="section">
+                <label>Full Name</label>
+                <input class="input" id="name" placeholder="As per Aadhaar" required>
+
+                <label>Phone Number</label>
+                <input class="input" id="phone" placeholder="10 digit mobile number" required>
+                <div class="error" id="phoneError">Enter valid 10 digit phone number</div>
+
+                <label>Alternative Contact</label>
+                <input class="input" id="altPhone" placeholder="10 digit mobile number" required>
+                <div class="error" id="altphoneError">Enter valid 10 digit phone number</div>
+
+                <label>Email Address</label>
+                <input class="input" id="email" type="email" placeholder="your@email.com" required>
+                <div class="error" id="emailError">Enter valid email address</div>
+            </div>
+
+            <!-- Aadhaar KYC Section -->
+            <div class="aadhaar-section">
+                <div class="aadhaar-header">
+                    <div class="aadhaar-icon">&#127760;</div>
+                    <div>
+                        <h3 class="aadhaar-title">Aadhaar Verification</h3>
+                        <p class="aadhaar-subtitle">Verify your identity with Aadhaar OTP</p>
+                    </div>
+                </div>
+
+                <label>Aadhaar Number</label>
+                <input class="input" id="aadhaar" maxlength="12" placeholder="12 digit Aadhaar number" required>
+                <div class="error" id="aadhaarError">Enter valid 12 digit Aadhaar number</div>
+
+                <div id="autoFillToggle" class="auto-fill-toggle">
+                    <input type="checkbox" id="autoFillEnabled" checked>
+                    <label for="autoFillEnabled">Auto-fill name & address from Aadhaar</label>
+                </div>
+
+                <div id="sendOtpBtn" class="section">
+                    <button type="button" class="verify-btn" onclick="sendAadhaarOTP()">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                            <path d="M7 11V7a5 5 0 0110 0v4"></path>
+                        </svg>
+                        Send OTP to Aadhaar
+                    </button>
+                </div>
+
+                <div id="otpSection" class="otp-section">
+                    <label>Enter OTP sent to Aadhaar linked mobile</label>
+                    <div class="otp-inputs">
+                        <input type="text" class="otp-input" maxlength="1" id="otp1" oninput="handleOTPInput(this, 1)">
+                        <input type="text" class="otp-input" maxlength="1" id="otp2" oninput="handleOTPInput(this, 2)">
+                        <input type="text" class="otp-input" maxlength="1" id="otp3" oninput="handleOTPInput(this, 3)">
+                        <input type="text" class="otp-input" maxlength="1" id="otp4" oninput="handleOTPInput(this, 4)">
+                        <input type="text" class="otp-input" maxlength="1" id="otp5" oninput="handleOTPInput(this, 5)">
+                        <input type="text" class="otp-input" maxlength="1" id="otp6" oninput="handleOTPInput(this, 6)">
+                    </div>
+                    <button type="button" class="verify-btn" id="verifyOtpBtn" onclick="verifyAadhaarOTP()">
+                        Verify OTP
+                    </button>
+                    <p style="text-align:center; font-size:11px; color:#6b7280; margin-top:10px;">
+                        Didn't receive OTP? <a href="#" onclick="resendOTP(); return false;">Resend</a>
+                    </p>
+                </div>
+
+                <div id="verifiedBadge" class="verified-badge" style="display:none;">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                        <polyline points="22,4 12,14.01 9,11.01"></polyline>
+                    </svg>
+                    <span>Aadhaar Verified Successfully</span>
+                </div>
+            </div>
+
+            <div class="section">
+                <label>Permanent Address</label>
+                <textarea class="input" id="address" placeholder="Your permanent address" required></textarea>
+
+                <label>Occupation</label>
+                <input class="input" id="occupation" placeholder="Student / Working Professional" required>
+
+                <label>Work / College Address</label>
+                <textarea class="input" id="occupationAddress" placeholder="Your college or office address"></textarea>
+            </div>
+
+            <div class="section">
+                <label>Upload Aadhaar Card Photo</label>
+                <div class="uploadBox">
+                    <input type="file" id="aadhaarPhoto" accept="image/*" required>
+                    <p style="margin:10px 0 0; color:#6b7280; font-size:12px;">Click to upload or drag & drop</p>
+                </div>
+                <img id="preview" class="preview" style="display:none">
+            </div>
+
+            <div class="section">
+                <label>Upload Passport Size Photo</label>
+                <div class="uploadBox">
+                    <input type="file" id="passportPhoto" accept="image/*" required>
+                    <p style="margin:10px 0 0; color:#6b7280; font-size:12px;">Click to upload or drag & drop</p>
+                </div>
+                <img id="passportPreview" class="preview" style="display:none">
+            </div>
+
+            <button type="submit" id="submitBtn">Submit Check-In</button>
+            <div class="success" id="successMsg" style="display:none;"></div>
+
+        </form>
+
+        <div class="powered">
+            Powered by <strong>Codex Tech Innovations & Consultants LLP</strong>
+        </div>
+    </div>
+
+    <script>
+        // ==================== CONFIGURATION ====================
+        const API_BASE_URL = 'https://impulsive-bert-beardlike.ngrok-free.dev/api';
+
+        // ==================== URL PARAMS ====================
+        const params = new URLSearchParams(window.location.search);
+        const owner_id = params.get("owner_id");
+        const pg_id = params.get("pg_id");
+
+        // Check invalid link
+        if (!owner_id || !pg_id) {
+            document.querySelector(".card").style.display = "none";
+            document.getElementById("notFound").style.display = "flex";
+        }
+
+        // ==================== SET MIN DATE TO TODAY ====================
+        function setMinDates() {
+            const today = new Date().toISOString().split('T')[0];
+            document.getElementById('checkinDate').setAttribute('min', today);
+            document.getElementById('checkoutDate').setAttribute('min', today);
+        }
+        setMinDates();
+
+        // ==================== STAY TYPE LOGIC ====================
+        function onStayTypeChange() {
+            const selected = document.querySelector('input[name="stayType"]:checked');
+            const dtSection = document.getElementById('datetimeSection');
+            const dailySection = document.getElementById('dailyCheckoutSection');
+            const monthlySection = document.getElementById('monthlyCheckoutSection');
+            const checkoutDivider = document.getElementById('checkoutDivider');
+            const summary = document.getElementById('staySummary');
+
+            // Reset all
+            dailySection.style.display = 'none';
+            monthlySection.style.display = 'none';
+            checkoutDivider.style.display = 'none';
+            summary.classList.remove('show');
+            summary.innerHTML = '';
+            clearDatetimeErrors();
+
+            if (!selected) {
+                dtSection.classList.add('hidden');
+                return;
+            }
+
+            dtSection.classList.remove('hidden');
+            checkoutDivider.style.display = 'flex';
+
+            if (selected.value === 'daily') {
+                document.getElementById('datetimeTitle').textContent = 'Daily Stay Details';
+                document.getElementById('datetimeSubtitle').textContent = 'Select your check-in & check-out date and time';
+                document.getElementById('checkoutLabel').textContent = 'Check-Out';
+                dailySection.style.display = 'block';
+
+                // Set checkout min date to match checkin
+                const checkinVal = document.getElementById('checkinDate').value;
+                if (checkinVal) {
+                    document.getElementById('checkoutDate').setAttribute('min', checkinVal);
+                }
+            } else if (selected.value === 'monthly') {
+                document.getElementById('datetimeTitle').textContent = 'Monthly Stay Details';
+                document.getElementById('datetimeSubtitle').textContent = 'Select check-in date & duration in months';
+                document.getElementById('checkoutLabel').textContent = 'Stay Duration';
+                monthlySection.style.display = 'block';
+            }
+
+            // Scroll to datetime section
+            dtSection.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+
+        // When checkin date changes, update checkout min
+        document.getElementById('checkinDate').addEventListener('change', function () {
+            const checkoutDate = document.getElementById('checkoutDate');
+            if (this.value) {
+                // For daily: set min checkout date to checkin date
+                const nextDay = new Date(this.value);
+                nextDay.setDate(nextDay.getDate() + 1);
+                checkoutDate.setAttribute('min', nextDay.toISOString().split('T')[0]);
+
+                // If checkout date is before new min, clear it
+                if (checkoutDate.value && checkoutDate.value <= this.value) {
+                    checkoutDate.value = '';
+                }
+            }
+            updateStaySummary();
+        });
+
+        function updateStaySummary() {
+            const selected = document.querySelector('input[name="stayType"]:checked');
+            const summary = document.getElementById('staySummary');
+            const checkinDate = document.getElementById('checkinDate').value;
+            const checkinTime = document.getElementById('checkinTime').value;
+
+            if (!selected || !checkinDate || !checkinTime) {
+                summary.classList.remove('show');
+                summary.innerHTML = '';
+                return;
+            }
+
+            const formattedCheckin = formatDate(checkinDate) + ' at ' + formatTime(checkinTime);
+
+            if (selected.value === 'daily') {
+                const checkoutDate = document.getElementById('checkoutDate').value;
+                const checkoutTime = document.getElementById('checkoutTime').value;
+
+                if (checkoutDate && checkoutTime) {
+                    const formattedCheckout = formatDate(checkoutDate) + ' at ' + formatTime(checkoutTime);
+                    const days = calculateDays(checkinDate, checkoutDate);
+                    summary.innerHTML = `Check-In: <strong>${formattedCheckin}</strong> &rarr; Check-Out: <strong>${formattedCheckout}</strong><br>Total: <strong>${days} day${days > 1 ? 's' : ''}</strong>`;
+                    summary.classList.add('show');
+                } else {
+                    summary.classList.remove('show');
+                }
+            } else if (selected.value === 'monthly') {
+                const monthSelected = document.querySelector('input[name="stayMonths"]:checked');
+                if (monthSelected) {
+                    const months = parseInt(monthSelected.value);
+                    const checkoutDate = calculateMonthlyCheckout(checkinDate, months);
+                    summary.innerHTML = `Check-In: <strong>${formattedCheckin}</strong> &rarr; Stay: <strong>${months} month${months > 1 ? 's' : ''}</strong><br>Check-Out on: <strong>${formatDate(checkoutDate)}</strong>`;
+                    summary.classList.add('show');
+                } else {
+                    summary.classList.remove('show');
+                }
+            }
+        }
+
+        function calculateDays(startDate, endDate) {
+            const start = new Date(startDate);
+            const end = new Date(endDate);
+            const diff = end - start;
+            return Math.max(1, Math.ceil(diff / (1000 * 60 * 60 * 24)));
+        }
+
+        function calculateMonthlyCheckout(dateStr, months) {
+            const date = new Date(dateStr);
+            date.setMonth(date.getMonth() + months);
+            // If the resulting day is less than the original (e.g. Jan 31 + 1 month), adjust to last day of prev month
+            if (date.getDate() < new Date(dateStr).getDate()) {
+                date.setDate(0); // last day of previous month
+            }
+            return date.toISOString().split('T')[0];
+        }
+
+        function formatDate(dateStr) {
+            const date = new Date(dateStr + 'T00:00:00');
+            const options = { day: 'numeric', month: 'short', year: 'numeric' };
+            return date.toLocaleDateString('en-IN', options);
+        }
+
+        function formatTime(timeStr) {
+            if (!timeStr) return '';
+            const [h, m] = timeStr.split(':');
+            const hour = parseInt(h);
+            const ampm = hour >= 12 ? 'PM' : 'AM';
+            const displayHour = hour % 12 || 12;
+            return `${displayHour}:${m} ${ampm}`;
+        }
+
+        function clearDatetimeErrors() {
+            document.getElementById('checkinError').classList.remove('show');
+            document.getElementById('checkoutError').classList.remove('show');
+            document.getElementById('monthError').classList.remove('show');
+        }
+
+        function validateDatetime() {
+            const selected = document.querySelector('input[name="stayType"]:checked');
+            clearDatetimeErrors();
+
+            if (!selected) {
+                alert('Please select a stay type (Daily or Monthly)');
+                return false;
+            }
+
+            const checkinDate = document.getElementById('checkinDate').value;
+            const checkinTime = document.getElementById('checkinTime').value;
+
+            if (!checkinDate || !checkinTime) {
+                document.getElementById('checkinError').classList.add('show');
+                return false;
+            }
+
+            if (selected.value === 'daily') {
+                const checkoutDate = document.getElementById('checkoutDate').value;
+                const checkoutTime = document.getElementById('checkoutTime').value;
+
+                if (!checkoutDate || !checkoutTime) {
+                    document.getElementById('checkoutError').classList.add('show');
+                    return false;
+                }
+
+                // Validate checkout is after checkin
+                const checkinDT = new Date(checkinDate + 'T' + checkinTime);
+                const checkoutDT = new Date(checkoutDate + 'T' + checkoutTime);
+
+                if (checkoutDT <= checkinDT) {
+                    document.getElementById('checkoutError').textContent = 'Check-out must be after check-in date and time';
+                    document.getElementById('checkoutError').classList.add('show');
+                    return false;
+                }
+            } else if (selected.value === 'monthly') {
+                const monthSelected = document.querySelector('input[name="stayMonths"]:checked');
+                if (!monthSelected) {
+                    document.getElementById('monthError').classList.add('show');
+                    return false;
+                }
+            }
+
+            return true;
+        }
+
+        // ==================== LOAD PG NAME ====================
+        async function loadPG() {
+            try {
+                const res = await fetch(`${API_BASE_URL}/tenantRequest/pg/${pg_id}`);
+                const data = await res.json();
+                document.getElementById("pgName").innerText = data.name || "Get Your Stay";
+            } catch {
+                document.getElementById("pgName").innerText = "Get Your Stay";
+            }
+        }
+        loadPG();
+
+        // ==================== AADHAAR KYC FUNCTIONS ====================
+        let aadhaarVerified = false;
+        let aadhaarData = null;
+        let currentSessionId = null;
+
+        async function sendAadhaarOTP() {
+            const aadhaarInput = document.getElementById('aadhaar');
+            const aadhaar = aadhaarInput.value.trim();
+            const sendBtn = document.getElementById('sendOtpBtn');
+
+            if (!/^\d{12}$/.test(aadhaar)) {
+                document.getElementById('aadhaarError').classList.add('show');
+                return;
+            }
+            document.getElementById('aadhaarError').classList.remove('show');
+
+            sendBtn.disabled = true;
+            sendBtn.innerHTML = '<span class="spinner"></span>Sending OTP...';
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/aadhaar-kyc/send-otp`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        aadhaar_number: aadhaar
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    currentSessionId = result.session_id;
+                    document.getElementById('otpSection').classList.add('active');
+                    document.getElementById('otp1').focus();
+                } else {
+                    alert(result.message || 'Failed to send OTP');
+                }
+            } catch (error) {
+                console.error('OTP Error:', error);
+                alert('Failed to send OTP. Please try again.');
+            }
+
+            sendBtn.disabled = false;
+            sendBtn.innerHTML = `
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <rect x="3" y="11" width="18" height="11" rx="2" ry="2"></rect>
+                    <path d="M7 11V7a5 5 0 0110 0v4"></path>
+                </svg>
+                Send OTP to Aadhaar
+            `;
+        }
+
+        function handleOTPInput(input, index) {
+            const value = input.value;
+            if (value.length === 1 && index < 6) {
+                document.getElementById(`otp${index + 1}`).focus();
+            }
+
+            if (event.inputType === 'deleteContentBackward' && index > 1 && !value) {
+                document.getElementById(`otp${index - 1}`).focus();
+            }
+        }
+
+        async function verifyAadhaarOTP() {
+            const otp = [1,2,3,4,5,6].map(i => document.getElementById(`otp${i}`).value).join('');
+            const aadhaar = document.getElementById('aadhaar').value.trim();
+            const verifyBtn = document.getElementById('verifyOtpBtn');
+
+            if (otp.length !== 6) {
+                alert('Please enter complete 6-digit OTP');
+                return;
+            }
+
+            verifyBtn.disabled = true;
+            verifyBtn.innerHTML = '<span class="spinner"></span>Verifying...';
+
+            try {
+                const response = await fetch(`${API_BASE_URL}/aadhaar-kyc/verify-otp`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        aadhaar_number: aadhaar,
+                        otp: otp,
+                        session_id: currentSessionId
+                    })
+                });
+
+                const result = await response.json();
+
+                if (result.success) {
+                    aadhaarVerified = true;
+                    aadhaarData = result.data;
+
+                    document.getElementById('verifiedBadge').style.display = 'flex';
+                    document.getElementById('otpSection').classList.remove('active');
+                    document.getElementById('sendOtpBtn').style.display = 'none';
+                    document.getElementById('aadhaar').disabled = true;
+
+                    verifyBtn.classList.add('verified');
+                    verifyBtn.innerHTML = `
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="20,6 9,17 4,12"></polyline>
+                        </svg>
+                        Verified
+                    `;
+
+                    if (document.getElementById('autoFillEnabled').checked) {
+                        autoFillFromAadhaar(result.data);
+                    }
+                } else {
+                    alert(result.message || 'Verification failed. Please try again.');
+                }
+            } catch (error) {
+                console.error('Verify Error:', error);
+                alert('Verification failed. Please try again.');
+            }
+
+            verifyBtn.disabled = false;
+        }
+
+        function autoFillFromAadhaar(data) {
+            if (data.name) {
+                document.getElementById('name').value = data.name;
+            }
+            if (data.address) {
+                document.getElementById('address').value = data.address;
+            }
+            if (data.mobile) {
+                document.getElementById('phone').value = data.mobile;
+            }
+        }
+
+        function resendOTP() {
+            sendAadhaarOTP();
+        }
+
+        // ==================== FORM VALIDATION ====================
+        function validateForm() {
+            let valid = true;
+
+            // Phone validation
+            const phoneRegex = /^[6-9]\d{9}$/;
+            const phoneInput = document.getElementById('phone');
+            const phoneError = document.getElementById('phoneError');
+
+            if (!phoneRegex.test(phoneInput.value)) {
+                phoneError.classList.add('show');
+                valid = false;
+            } else {
+                phoneError.classList.remove('show');
+            }
+
+            // Alt Phone validation
+            const altPhoneInput = document.getElementById('altPhone');
+            const altphoneError = document.getElementById('altphoneError');
+
+            if (!phoneRegex.test(altPhoneInput.value)) {
+                altphoneError.classList.add('show');
+                valid = false;
+            } else {
+                altphoneError.classList.remove('show');
+            }
+
+            // Email validation
+            const emailInput = document.getElementById('email');
+            const emailError = document.getElementById('emailError');
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!emailRegex.test(emailInput.value)) {
+                emailError.classList.add('show');
+                valid = false;
+            } else {
+                emailError.classList.remove('show');
+            }
+
+            // Aadhaar validation
+            const aadhaarInput = document.getElementById('aadhaar');
+            const aadhaarError = document.getElementById('aadhaarError');
+            const aadhaarRegex = /^\d{12}$/;
+
+            if (!aadhaarRegex.test(aadhaarInput.value)) {
+                aadhaarError.classList.add('show');
+                valid = false;
+            } else {
+                aadhaarError.classList.remove('show');
+            }
+
+            // Date/Time validation
+            if (!validateDatetime()) {
+                valid = false;
+            }
+
+            return valid;
+        }
+
+        // ==================== IMAGE PREVIEW ====================
+        const input = document.getElementById("aadhaarPhoto");
+        const preview = document.getElementById("preview");
+
+        input.onchange = e => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = () => {
+                preview.src = reader.result;
+                preview.style.display = "block";
+            };
+            reader.readAsDataURL(file);
+        }
+
+        const passportInput = document.getElementById("passportPhoto");
+        const passportPreview = document.getElementById("passportPreview");
+
+        passportInput.onchange = e => {
+            const file = e.target.files[0];
+            if (!file) return;
+
+            const reader = new FileReader();
+            reader.onload = () => {
+                passportPreview.src = reader.result;
+                passportPreview.style.display = "block";
+            };
+            reader.readAsDataURL(file);
+        }
+
+        // ==================== FORM SUBMIT ====================
+        document.getElementById("tenantForm").onsubmit = async e => {
+            e.preventDefault();
+
+            if (!validateForm()) {
+                return;
+            }
+
+            if (aadhaarVerified && aadhaarData) {
+                localStorage.setItem('aadhaar_verified_data', JSON.stringify(aadhaarData));
+            }
+
+            const submitBtn = document.getElementById("submitBtn");
+            submitBtn.disabled = true;
+            submitBtn.innerHTML = '<span class="spinner"></span>Submitting...';
+
+            const file = input.files[0];
+            const passportFile = passportInput.files[0];
+            const stayType = document.querySelector('input[name="stayType"]:checked').value;
+
+            const formData = new FormData();
+            formData.append("owner_id", owner_id);
+            formData.append("pg_id", pg_id);
+            formData.append("name", document.getElementById("name").value);
+            formData.append("phone", document.getElementById("phone").value);
+            formData.append("altPhone", document.getElementById("altPhone").value);
+            formData.append("email", document.getElementById("email").value);
+            formData.append("aadhaar", document.getElementById("aadhaar").value);
+            formData.append("address", document.getElementById("address").value);
+            formData.append("occupation", document.getElementById("occupation").value);
+            formData.append("occupationAddress", document.getElementById("occupationAddress").value);
+            formData.append("aadhaarVerified", aadhaarVerified);
+
+            // Stay type data
+            formData.append("stayType", stayType);
+            formData.append("checkinDate", document.getElementById("checkinDate").value);
+            formData.append("checkinTime", document.getElementById("checkinTime").value);
+
+            if (stayType === 'daily') {
+                formData.append("checkoutDate", document.getElementById("checkoutDate").value);
+                formData.append("checkoutTime", document.getElementById("checkoutTime").value);
+            } else if (stayType === 'monthly') {
+                const months = document.querySelector('input[name="stayMonths"]:checked').value;
+                formData.append("stayMonths", months);
+                const checkoutDate = calculateMonthlyCheckout(document.getElementById("checkinDate").value, parseInt(months));
+                formData.append("checkoutDate", checkoutDate);
+                formData.append("checkoutTime", "11:59"); // End of day for monthly checkout
+            }
+
+            if (aadhaarData) {
+                formData.append("aadhaarName", aadhaarData.name || '');
+                formData.append("aadhaarAddress", aadhaarData.address || '');
+                formData.append("aadhaarDOB", aadhaarData.dob || '');
+                formData.append("aadhaarGender", aadhaarData.gender || '');
+            }
+
+            if (file) formData.append("aadhaarPhoto", file);
+            if (passportFile) formData.append("passportPhoto", passportFile);
+
+            try {
+                const res = await fetch(`${API_BASE_URL}/tenantRequest/self-checkin`, {
+                    method: "POST",
+                    body: formData
+                });
+
+                const data = await res.json();
+
+                if (data.success) {
+                    document.getElementById("successMsg").style.display = 'block';
+                    document.getElementById("successMsg").innerText = "Check-In Submitted Successfully!";
+                    document.getElementById("tenantForm").reset();
+                    preview.style.display = "none";
+                    passportPreview.style.display = "none";
+
+                    // Reset stay type section
+                    document.getElementById('datetimeSection').classList.add('hidden');
+                    document.getElementById('dailyCheckoutSection').style.display = 'none';
+                    document.getElementById('monthlyCheckoutSection').style.display = 'none';
+                    document.getElementById('checkoutDivider').style.display = 'none';
+                    document.getElementById('staySummary').classList.remove('show');
+                    document.getElementById('staySummary').innerHTML = '';
+                    clearDatetimeErrors();
+
+                    // Reset Aadhaar section
+                    aadhaarVerified = false;
+                    aadhaarData = null;
+                    currentSessionId = null;
+                    document.getElementById('verifiedBadge').style.display = 'none';
+                    document.getElementById('sendOtpBtn').style.display = 'block';
+                    document.getElementById('otpSection').classList.remove('active');
+                    document.getElementById('aadhaar').disabled = false;
+                    [1,2,3,4,5,6].forEach(i => document.getElementById(`otp${i}`).value = '');
+
+                    setMinDates();
+                } else {
+                    alert(data.message || "Submission failed");
+                }
+            } catch (error) {
+                console.error(error);
+                alert("Server error. Please try again.");
+            }
+
+            submitBtn.disabled = false;
+            submitBtn.innerHTML = "Submit Check-In";
+        };
+    </script>
+</body>
+
+</html>
