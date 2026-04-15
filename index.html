@@ -34,7 +34,7 @@
             right: -200px;
             width: 500px;
             height: 500px;
-            background: radial-gradient(circle, rgba(249,115,22,0.08) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(249, 115, 22, 0.08) 0%, transparent 70%);
             pointer-events: none;
             z-index: 0;
         }
@@ -46,7 +46,7 @@
             left: -150px;
             width: 400px;
             height: 400px;
-            background: radial-gradient(circle, rgba(45,90,158,0.15) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(45, 90, 158, 0.15) 0%, transparent 70%);
             pointer-events: none;
             z-index: 0;
         }
@@ -75,6 +75,7 @@
                 opacity: 0;
                 transform: translateY(30px) scale(0.97);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0) scale(1);
@@ -90,8 +91,15 @@
         }
 
         @keyframes shimmer {
-            0%, 100% { background-position: 0% 50%; }
-            50% { background-position: 100% 50%; }
+
+            0%,
+            100% {
+                background-position: 0% 50%;
+            }
+
+            50% {
+                background-position: 100% 50%;
+            }
         }
 
         .card-inner {
@@ -165,7 +173,7 @@
             outline: none;
             border-color: #234681;
             background: #ffffff;
-            box-shadow: 0 0 0 3px rgba(15, 39, 68, 0.08), 0 1px 3px rgba(0,0,0,0.04);
+            box-shadow: 0 0 0 3px rgba(15, 39, 68, 0.08), 0 1px 3px rgba(0, 0, 0, 0.04);
             transform: translateY(-0.5px);
         }
 
@@ -193,7 +201,7 @@
             right: -30px;
             width: 100px;
             height: 100px;
-            background: radial-gradient(circle, rgba(249,115,22,0.12) 0%, transparent 70%);
+            background: radial-gradient(circle, rgba(249, 115, 22, 0.12) 0%, transparent 70%);
             pointer-events: none;
         }
 
@@ -214,7 +222,7 @@
             color: white;
             font-size: 18px;
             flex-shrink: 0;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
         }
 
         .stay-section .section-icon {
@@ -358,6 +366,7 @@
                 opacity: 0;
                 transform: translateY(-10px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -410,7 +419,7 @@
             outline: none;
             border-color: #234681;
             background: white;
-            box-shadow: 0 0 0 3px rgba(26, 54, 93, 0.1), 0 1px 3px rgba(0,0,0,0.04);
+            box-shadow: 0 0 0 3px rgba(26, 54, 93, 0.1), 0 1px 3px rgba(0, 0, 0, 0.04);
             transform: translateY(-0.5px);
         }
 
@@ -513,7 +522,7 @@
             justify-content: center;
             color: white;
             font-size: 8px;
-            box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.15);
         }
 
         .month-opt input[type="radio"]:checked~.month-chk {
@@ -602,7 +611,7 @@
             left: -100%;
             width: 100%;
             height: 100%;
-            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.1), transparent);
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
             transition: left 0.5s;
         }
 
@@ -651,8 +660,13 @@
         }
 
         @keyframes spin {
-            0% { transform: rotate(0deg) }
-            100% { transform: rotate(360deg) }
+            0% {
+                transform: rotate(0deg)
+            }
+
+            100% {
+                transform: rotate(360deg)
+            }
         }
 
         /* ERROR */
@@ -731,14 +745,37 @@
 
         /* Responsive */
         @media (max-width: 480px) {
-            body { padding: 12px; }
-            .card-inner { padding: 24px 20px 22px; }
-            .stay-type-box { gap: 8px; }
-            .stay-option-label { padding: 14px 8px; }
-            .month-grid { gap: 6px; }
-            .dt-grid { grid-template-columns: 1fr; }
-            .pgName { font-size: 22px; }
-            .errorCode { font-size: 80px; }
+            body {
+                padding: 12px;
+            }
+
+            .card-inner {
+                padding: 24px 20px 22px;
+            }
+
+            .stay-type-box {
+                gap: 8px;
+            }
+
+            .stay-option-label {
+                padding: 14px 8px;
+            }
+
+            .month-grid {
+                gap: 6px;
+            }
+
+            .dt-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .pgName {
+                font-size: 22px;
+            }
+
+            .errorCode {
+                font-size: 80px;
+            }
         }
     </style>
 
@@ -920,11 +957,13 @@
                     <input class="input" id="name" placeholder="As per Aadhaar" required>
 
                     <label>Phone Number</label>
-                    <input class="input" id="phone" inputmode="numeric" pattern="[6-9][0-9]{9}" maxlength="10" placeholder="10 digit mobile number" required>
+                    <input class="input" id="phone" inputmode="numeric" pattern="[6-9][0-9]{9}" maxlength="10"
+                        placeholder="10 digit mobile number" required>
                     <div class="error" id="phoneError">Enter valid 10 digit phone number (must start with 6-9)</div>
 
                     <label>Alternative Contact</label>
-                    <input class="input" id="altPhone" inputmode="numeric" pattern="[6-9][0-9]{9}" maxlength="10" placeholder="10 digit mobile number" required>
+                    <input class="input" id="altPhone" inputmode="numeric" pattern="[6-9][0-9]{9}" maxlength="10"
+                        placeholder="10 digit mobile number" required>
                     <div class="error" id="altphoneError">Enter valid 10 digit phone number (must start with 6-9)</div>
 
                     <label>Email Address</label>
@@ -932,7 +971,8 @@
                     <div class="error" id="emailError">Enter valid email address</div>
 
                     <label>Aadhaar Number</label>
-                    <input class="input" id="aadhaar" inputmode="numeric" pattern="[0-9]{12}" maxlength="12" placeholder="12 digit Aadhaar number" required>
+                    <input class="input" id="aadhaar" inputmode="numeric" pattern="[0-9]{12}" maxlength="12"
+                        placeholder="12 digit Aadhaar number" required>
                     <div class="error" id="aadhaarError">Enter valid 12 digit Aadhaar number</div>
 
                     <label>Permanent Address</label>
@@ -942,7 +982,8 @@
                     <input class="input" id="occupation" placeholder="Student / Working Professional" required>
 
                     <label>Work / College Address</label>
-                    <textarea class="input" id="occupationAddress" placeholder="Your college or office address" required>
+                    <textarea class="input" id="occupationAddress" placeholder="Your college or office address"
+                        required>
                     </textarea>
 
                 </div>
@@ -1275,11 +1316,11 @@
 
         /* FORCE NUMERIC ONLY */
         [phoneInput, altPhoneInput, aadhaarInput].forEach(input => {
-            input.addEventListener('input', function() {
+            input.addEventListener('input', function () {
                 this.value = this.value.replace(/\D/g, '')
             })
-            input.addEventListener('keydown', function(e) {
-                if (!/[\d\b]/.test(e.key) && !['Backspace','Delete','ArrowLeft','ArrowRight','Tab'].includes(e.key)) {
+            input.addEventListener('keydown', function (e) {
+                if (!/[\d\b]/.test(e.key) && !['Backspace', 'Delete', 'ArrowLeft', 'ArrowRight', 'Tab'].includes(e.key)) {
                     e.preventDefault()
                 }
             })
@@ -1302,7 +1343,9 @@
             const stayType = document.querySelector('input[name="stayType"]:checked').value
 
             const formData = new FormData()
-
+            const params = new URLSearchParams(window.location.search)
+            const pg_id = params.get("pg_id")
+            const owner_id = params.get("owner_id")
             formData.append("owner_id", owner_id)
             formData.append("pg_id", pg_id)
             formData.append("name", nameInput.value)
