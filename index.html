@@ -814,7 +814,7 @@
                 Powered by <strong>Codex Tech Innovations & Consultants LLP</strong>
             </div>
 
-            <form id="tenantForm">
+            <form id="tenantForm" onsubmit="return false;">
 
                 <!-- STAY TYPE -->
                 <div class="stay-section">
@@ -1329,7 +1329,7 @@
         /* SUBMIT FORM */
         document.getElementById("tenantForm").onsubmit = async e => {
             e.preventDefault()
-
+            e.stopPropagation()
             if (!validateForm()) return
 
             const submitBtn = document.getElementById("submitBtn")
