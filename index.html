@@ -920,11 +920,11 @@
                     <input class="input" id="name" placeholder="As per Aadhaar" required>
 
                     <label>Phone Number</label>
-                    <input maxlength="10" type="number" class="input" id="phone" placeholder="10 digit mobile number" required>
+                    <input class="input" id="phone" inputmode="numeric" maxlength="10" placeholder="10 digit mobile number" required>
                     <div class="error" id="phoneError">Enter valid 10 digit phone number</div>
 
                     <label>Alternative Contact</label>
-                    <input maxlength="10" type="number" class="input" id="altPhone" placeholder="10 digit mobile number" required>
+                    <input class="input" id="altPhone" inputmode="numeric" maxlength="10" placeholder="10 digit mobile number" required>
                     <div class="error" id="altphoneError">Enter valid 10 digit phone number</div>
 
                     <label>Email Address</label>
@@ -932,7 +932,7 @@
                     <div class="error" id="emailError">Enter valid email address</div>
 
                     <label>Aadhaar Number</label>
-                    <input type="number" class="input" id="aadhaar" maxlength="12" placeholder="12 digit Aadhaar number" required>
+                    <input class="input" id="aadhaar" inputmode="numeric" maxlength="12" placeholder="12 digit Aadhaar number" required>
                     <div class="error" id="aadhaarError">Enter valid 12 digit Aadhaar number</div>
 
                     <label>Permanent Address</label>
@@ -1272,6 +1272,20 @@
         const addressInput = document.getElementById("address")
         const occupationInput = document.getElementById("occupation")
         const occupationAddressInput = document.getElementById("occupationAddress")
+
+        /* ENFORCE MAXLENGTH FOR NUMERIC INPUTS */
+        phoneInput.addEventListener('input', function() {
+            if (this.value.length > 10) this.value = this.value.slice(0, 10)
+            this.value = this.value.replace(/\D/g, '')
+        })
+        altPhoneInput.addEventListener('input', function() {
+            if (this.value.length > 10) this.value = this.value.slice(0, 10)
+            this.value = this.value.replace(/\D/g, '')
+        })
+        aadhaarInput.addEventListener('input', function() {
+            if (this.value.length > 12) this.value = this.value.slice(0, 12)
+            this.value = this.value.replace(/\D/g, '')
+        })
 
         /* SUBMIT FORM */
         document.getElementById("tenantForm").onsubmit = async e => {
